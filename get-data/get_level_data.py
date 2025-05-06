@@ -21,13 +21,6 @@ def get_level_by_date_str(date_str: str):
         return None
 
 
-# Sort the dates with only months and days
-def sort_key(item):
-    date_str, _ = item
-    month_day = date_str[5:]
-    return month_day
-
-
 if __name__ == "__main__":
 
     # Get dates, on each to retrieve data
@@ -72,8 +65,6 @@ if __name__ == "__main__":
     assert len(levels) == len(dates), "Not all levels were retrieved"
 
     level_by_date = {dates[i]: levels[i] for i in range(len(levels))}
-
-    level_by_date = dict(sorted(level_by_date.items(), key=sort_key))
 
     with open("public/data/level_by_date.json", "w") as f:
         json.dump(level_by_date, f, indent=4)
