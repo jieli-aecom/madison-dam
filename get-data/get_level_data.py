@@ -64,7 +64,7 @@ if __name__ == "__main__":
     levels = [ex.result() if ex.result() is not None else None for ex in execs]
     assert len(levels) == len(dates), "Not all levels were retrieved"
 
-    level_by_date = {dates[i]: levels[i] for i in range(len(levels))}
+    actuals_data = [{"date": dates[i], "value": levels[i]} for i in range(len(levels))]
 
-    with open("public/data/level_by_date.json", "w") as f:
-        json.dump(level_by_date, f, indent=4)
+    with open("public/data/actuals.json", "w") as f:
+        json.dump(actuals_data, f, indent=4)
