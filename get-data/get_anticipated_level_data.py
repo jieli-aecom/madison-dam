@@ -26,7 +26,7 @@ if __name__ == "main":
     start_date = break_dates[0]
     end_date = break_dates[-1]
 
-    date = start_date
+    date = datetime.date.today() - datetime.timedelta(days=365)
     daily_increment = (break_levels[break_idx + 1] - break_levels[break_idx]) / (
         (break_dates[break_idx + 1] - break_dates[break_idx]).days
     )
@@ -36,8 +36,8 @@ if __name__ == "main":
 
     while date <= end_date:
         if date < break_dates[break_idx]:
-            raise ValueError
-        if date < break_dates[break_idx + 1]:
+            level = break_levels[break_idx]
+        elif date < break_dates[break_idx + 1]:
             level = (
                 break_levels[break_idx]
                 + daily_increment * (date - break_dates[break_idx]).days
