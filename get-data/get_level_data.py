@@ -35,6 +35,9 @@ if __name__ == "__main__":
     start_date = datetime.date(start_year, start_month, start_day)
     end_date = datetime.date(end_year, end_month, end_day)
 
+    if start_date > datetime.date(2024, 11, 1):
+        start_date = datetime.date(2024, 11, 1)
+
     dates = []
 
     for i in range(int((end_date - start_date).days) + 1):

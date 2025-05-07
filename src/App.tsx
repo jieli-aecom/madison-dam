@@ -1,10 +1,9 @@
 import type { VisualizationSpec } from "vega-embed";
 import "./App.css";
 import { VegaChart } from "./components/vega-chart";
-import { MAIN_BLUE } from "./consts/colors";
+import { LIGHT_BLUE, MAIN_BLUE } from "./consts/colors";
 
 const spec: VisualizationSpec = {
-  $schema: "https://vega.github.io/schema/vega/v5.json",
   description: "A line chart showing values over time.",
   width: 600,
   height: 400,
@@ -56,8 +55,8 @@ const spec: VisualizationSpec = {
           type: "aggregate",
           fields: ["value", "value"],
           ops: ["min", "argmin"],
-          as: ["test", "test2"],
-        }
+          as: ["min", "argmin"],
+        },
       ],
     },
   ],
@@ -88,6 +87,12 @@ const spec: VisualizationSpec = {
       nice: true,
       zero: false,
     },
+    {
+      name: "color",
+      type: "ordinal",
+      range: [MAIN_BLUE, LIGHT_BLUE],
+      domain: ['Actual Level', 'Anticipated Level'],
+    }
   ],
 
   axes: [
@@ -131,7 +136,7 @@ const spec: VisualizationSpec = {
         enter: {
           x: { scale: "x", field: "date" },
           y: { scale: "y", field: "value" },
-          stroke: { value: "steelblue" },
+          stroke: { value: LIGHT_BLUE },
           strokeWidth: { value: 2 },
         },
       },
@@ -186,7 +191,7 @@ const spec: VisualizationSpec = {
         update: {
           x: { field: { group: "x" } },
           x2: { field: { group: "width" } },
-          y: { scale: "y", field: "test" },
+          y: { scale: "y", field: "min" },
           stroke: { value: "red" },
           strokeWidth: { value: 2 },
         },
@@ -194,18 +199,36 @@ const spec: VisualizationSpec = {
     },
 
     {
-      "type": "text",
-      "from": {"data": "anticipated_filtered"},
-      "encode": {
-        "update": {
+      type: "text",
+      from: { data: "anticipated_filtered" },
+      encode: {
+        update: {
           // "x": {"scale": "x", "field": "date", "offset": 2},
           // "y": {"scale": "y", "field": "indexed_price"},
-          "text": {"signal": "datum.test + timeFormat(lookupDate, '%b %d, %Y')"},
-          "baseline": {"value": "middle"}
+          text: { signal: "datum.min + timeFormat(datum.argmin.date, '%b %d, %Y')" },
+          baseline: { value: "middle" },
+        },
+      },
+    },
+  ],
+
+  "legends": [
+    {
+      "fill": "color",
+      "title": "Levels",
+      "orient": "bottom-left",
+      "offset": 8,
+      "encode": {
+        "symbols": {
+          "update": {
+            "strokeWidth": {"value": 0},
+            "shape": {"value": "square"},
+            "opacity": {"value": 0.3}
+          }
         }
       }
     }
-  ],
+  ]
 };
 
 function App() {
