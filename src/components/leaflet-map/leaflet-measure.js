@@ -4,6 +4,7 @@
 
 import { LIGHT_BLUE } from "../../consts/colors";
 import { FEET_IN_METER, FEET_IN_MILE, MILE_IN_METER, SQFT_IN_SQM, SQFT_IN_ACRE, ACRES_IN_SQM } from "../../consts/factors";
+import L from 'leaflet';
 
 (function (factory, window) {
   // define an AMD module that relies on 'leaflet'
@@ -12,7 +13,7 @@ import { FEET_IN_METER, FEET_IN_MILE, MILE_IN_METER, SQFT_IN_SQM, SQFT_IN_ACRE, 
 
       // define a Common JS module that relies on 'leaflet'
   } else if (typeof exports === "object") {
-      module.exports = factory(require("leaflet"));
+      module.exports = factory(L);
   }
 
   // attach your plugin to the global 'L' variable
