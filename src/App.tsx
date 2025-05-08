@@ -1,7 +1,7 @@
 import "./App.css";
 import { VegaChart } from "./components/vega-chart";
 import { levelsChartSpec } from "./consts/levels-chart-spec";
-import { LeafletMap } from "./components/leaflet-map/leaflet-map";
+import { LeafletMapContainer } from "./components/leaflet-map/leaflet-map-container";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         </section>
         <section className="w-full flex flex-col items-center gap-4">
           <h2 className="m-0 text-xl">Map</h2>
-          <LeafletMap />
+          <LeafletMapContainer />
         </section>
       </section>
     </section>
