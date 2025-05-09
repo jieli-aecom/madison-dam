@@ -1,24 +1,39 @@
 import { MapContainer } from "react-leaflet";
 import { LeafletMap } from "./leaflet-map";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { CENTER_LAT, CENTER_LNG, MAX_BOUNDS } from "../../consts/map";
+import { FEET_IN_MILE } from "../../consts/factors";
 
 export function LeafletMapContainer() {
-  const [latlng, setLatlng] = useState<number[]>([0, 0]);
+  const [distanceFt, setDistanceFt] = useState<number | null>(null);
+
+  const displayDistanceString = useMemo(() => {
+    if (distanceFt === null) return null;
+    if (distanceFt <= FEET_IN_MILE) {
+      return `${Math.round(distanceFt).toLocaleString()} ft`;
+    }
+    return `${(distanceFt / FEET_IN_MILE).toLocaleString()} miles`;
+  }, [distanceFt]);
 
   return (
     <section className="w-[90%] max-w-[900px] h-[500px] relative">
       <MapContainer
         zoomControl={false}
-        center={[51.505, -0.09]}
-        zoom={13}
-        minZoom={11}
+        center={[CENTER_LAT, CENTER_LNG]}
+        maxBounds={MAX_BOUNDS}
+        zoom={14}
+        minZoom={13}
         maxZoom={16}
         className="w-full h-full"
       >
-        <LeafletMap setLatlng={setLatlng} />
+        <LeafletMap setDistanceFt={setDistanceFt} />
       </MapContainer>
-      <div className="absolute right-[12px] top-[12px] bg-white w-[30px] h-[30px] z-400">
-        d
+      <div className="absolute opacity-85 rounded-lg p-2 left-[12px] top-[12px] bg-white z-400 flex flex-col gap-2">
+        <div className="text-xs flex items-center gap-1">
+          <span className="material-symbols-outlined">left_click</span>How far
+          am I from the new shoreline? Click on map.
+        </div>
+        {displayDistanceString !== null && <div>{displayDistanceString.toLocaleString()}</div>}
       </div>
     </section>
   );

@@ -8,7 +8,7 @@ export const addMeasureTool = (map: Map) => {
   if (existingControl) return;
 
   L.Measure = {
-    title: "Measure",
+    title: "Measure Yourself",
     linearMeasurement: "Distance",
     areaMeasurement: "Area",
     start: "Start",
@@ -20,6 +20,7 @@ export const addMeasureTool = (map: Map) => {
     mileDecimals: 2,
     sqftDecimals: 0,
     acresDecimals: 2,
+    
   };
 
   L.control.measure().addTo(map);
