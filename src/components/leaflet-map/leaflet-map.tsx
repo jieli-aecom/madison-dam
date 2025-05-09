@@ -1,11 +1,18 @@
-import type { Map } from "leaflet";
-import { useEffect } from "react";
-import { Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import type { LeafletMouseEvent, Map } from "leaflet";
+import { useEffect, useRef } from "react";
+import {
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+  useMapEvent,
+  useMapEvents,
+} from "react-leaflet";
 import L from "leaflet";
 
 import "./leaflet-measure";
-import "./leaflet.css";
 import "./leaflet-measure.css";
+import { addMeasureTool } from "./add-measure-tool";
 
 const tileAccount = "mapbox";
 const tileStyle = "satellite-v9";
@@ -15,40 +22,39 @@ const mapboxUrl = `https://api.mapbox.com/styles/v1/${tileAccount}/${tileStyle}/
 const mapboxAttribution =
   '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a>';
 
-export function LeafletMap() {
-  const map: Map = useMap();
+export interface LeafletMapProps {
+  setLatlng: (latlng: number[]) => void;
+}
+
+export function LeafletMap(props: LeafletMapProps) {
+  const map = useMapEvents({
+    click: (e: LeafletMouseEvent) => {
+      const latlng = e.latlng;
+      const lat = latlng.lat;
+      const lng = latlng.lng;
+
+      // Notify parent
+      props.setLatlng([lat, lng]);
+
+      // Add marker to location
+      markerLayer.current?.clearLayers();
+      L.marker([lat, lng]).addTo(markerLayer.current!);
+    },
+  });
+
+  const markerLayer = useRef<L.LayerGroup>(null);
+  const addMarkerLayer = () => {
+    if (markerLayer.current) {
+      map.removeLayer(markerLayer.current);
+    }
+    markerLayer.current = L.layerGroup().addTo(map);
+  };
+
   useEffect(() => {
     if (!map) return;
-
-    // Do not add if already added
-    const existingControl = document.querySelector(".leaflet-control-measure");
-    if (existingControl) return;
-
-    L.Measure = {
-      title: "Measure",
-      linearMeasurement: "Distance",
-      areaMeasurement: "Area",
-      start: "Start",
-      feet: "ft",
-      mile: "miles",
-      sqft: "sqft",
-      acres: "acres",
-      feetDecimals: 0,
-      mileDecimals: 2,
-      sqftDecimals: 0,
-      acresDecimals: 2,
-    };
-
-    L.control.measure().addTo(map);
+    addMeasureTool(map);
+    addMarkerLayer();
   }, [map]);
-  return (
-    <>
-      <TileLayer attribution={mapboxAttribution} url={mapboxUrl} />
-      <Marker position={[51.505, -0.09]}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
-    </>
-  );
+
+  return <TileLayer attribution={mapboxAttribution} url={mapboxUrl} />;
 }

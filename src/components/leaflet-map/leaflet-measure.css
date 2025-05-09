@@ -1,4 +1,5 @@
 .leaflet-control-measure {
+  margin-top: 54px !important;
   background-color: #FFFFFF;
 }
 .leaflet-measure-toggle {
