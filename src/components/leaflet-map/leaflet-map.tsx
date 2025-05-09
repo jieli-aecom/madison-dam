@@ -83,7 +83,7 @@ export function LeafletMap(props: LeafletMapProps) {
 
   useEffect(() => {
     if (!map) return;
-    addMeasureTool(map);
+    // addMeasureTool(map);
     addBoundaryLayer();
     addMarkerLayer();
   }, [map]);
