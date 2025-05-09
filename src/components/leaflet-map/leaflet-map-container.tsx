@@ -4,7 +4,7 @@ import { LeafletMap } from "./leaflet-map";
 export function LeafletMapContainer() {
 
   return (
-    <section className="w-full max-w-[900px] h-[500px]">
+    <section className="w-[90%] max-w-[900px] h-[500px]">
       <MapContainer
         zoomControl={false}
         center={[51.505, -0.09]}
