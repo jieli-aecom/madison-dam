@@ -23,7 +23,7 @@ export function LeafletMapContainer() {
         maxBounds={MAX_BOUNDS}
         zoom={14}
         minZoom={13}
-        maxZoom={16}
+        maxZoom={18}
         className="w-full h-full"
       >
         <LeafletMap setDistanceFt={setDistanceFt} />
