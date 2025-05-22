@@ -24,6 +24,8 @@ jobs:
       - name: Build project
         env:
           VITE_MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
+          VITE_XYLEM_CLIENT_ID: ${{ secrets.XYLEM_CLIENT_ID }}
+          VITE_XYLEM_CLIENT_SECRET: ${{ secrets.XYLEM_CLIENT_SECRET }}
         run: npm run build
 
       - name: Deploy to GitHub Pages
