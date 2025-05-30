@@ -16,12 +16,25 @@ TARGET_FILE = "public/data/actuals.json"
 
 
 def main():
+
+    # Target file already exists? If so, skip what we already have
+    try:
+        with open(TARGET_FILE, "r") as f:
+            existing_data = json.load(f)
+            last_date_str = existing_data[-1]["date"]
+            start_date = datetime.datetime.strptime(
+                last_date_str, "%Y-%m-%d"
+            ).date() + datetime.timedelta(days=1)
+
+    except:
+        existing_data = []
+        start_date = datetime.date(START_YEAR, START_MONTH, START_DAY)
+
     today = datetime.date.today()
     end_year = today.year
     end_month = today.month
     end_day = today.day - 1
 
-    start_date = datetime.date(START_YEAR, START_MONTH, START_DAY)
     end_date = datetime.date(end_year, end_month, end_day)
 
     dates = []
@@ -44,7 +57,8 @@ def main():
     actuals_data = [{"date": dates[i], "value": levels[i]} for i in range(len(levels))]
 
     with open(TARGET_FILE, "w") as f:
-        json.dump(actuals_data, f, indent=4)
+        json.dump(existing_data + actuals_data, f, indent=4)
+
 
 if __name__ == "__main__":
     main()
