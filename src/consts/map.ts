@@ -10,19 +10,19 @@ export const MAX_BOUNDS: LatLngBoundsExpression = [
 ];
 
 export const MARKER_OPTIONS = {
-  radius: 20,
+  radius: 0,
   color: LIGHT_BLUE,
   fillColor: LIGHT_BLUE,
   fillOpacity: 0.5,
   stroke: true,
-  weight: 2,
+  weight: 8,
 };
 
 export const REF_MARKER_OPTIONS = {
-  radius: 20,
+  radius: 0,
   color: MAIN_BLUE,
   fillColor: MAIN_BLUE,
   fillOpacity: 0.5,
   stroke: true,
-  weight: 2,
+  weight: 8,
 };
