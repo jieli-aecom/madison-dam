@@ -128,6 +128,7 @@ export const levelsChartSpec: VisualizationSpec = {
       orient: "left",
       scale: "y",
       title: "Level",
+      format: "~d",
     },
   ],
 
