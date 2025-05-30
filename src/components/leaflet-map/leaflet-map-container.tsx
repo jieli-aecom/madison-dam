@@ -28,12 +28,12 @@ export function LeafletMapContainer() {
       >
         <LeafletMap setDistanceFt={setDistanceFt} />
       </MapContainer>
-      <div className="absolute opacity-85 rounded-lg p-2 left-[12px] top-[12px] bg-white z-400 flex flex-col gap-2">
+      <div className="absolute opacity-85 rounded-lg p-2 left-[12px] top-[12px] bg-white z-400 flex flex-col gap-2 items-end max-w-[14.5rem]">
         <div className="text-xs flex items-center gap-1">
           <span className="material-symbols-outlined">left_click</span>How far
-          am I from the new shoreline? Click on map.
+          am I from the temporary drawdown shoreline? Click on map.
         </div>
-        {displayDistanceString !== null && <div>{displayDistanceString.toLocaleString()}</div>}
+        {displayDistanceString !== null && <div className="font-semibold text-xl">{displayDistanceString.toLocaleString()}</div>}
       </div>
     </section>
   );

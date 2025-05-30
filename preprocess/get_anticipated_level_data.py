@@ -26,7 +26,7 @@ def main():
 
     num_breaks = len(BREAKS)
     break_idx = 0
-    start_date = break_dates[0]
+    start_date = datetime.datetime.strptime("2024-12-01", "%Y-%m-%d")
     end_date = break_dates[-1]
 
     date = start_date

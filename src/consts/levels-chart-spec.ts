@@ -1,5 +1,5 @@
 import type { VisualizationSpec } from "vega-embed";
-import { LIGHT_BLUE, LIGHT_GRAY, MAIN_BLUE } from "./colors";
+import { LIGHT_BLUE, LIGHT_GRAY, DARK_RED, MAIN_BLUE } from "./colors";
 
 const MILLISECONDS_BY_DAY = 60 * 60 * 24 * 1000;
 const TOOLTIP_WIDTH = 155;
@@ -11,9 +11,20 @@ const TOOLTIP_KEY_WIDTH = 110;
 
 export const levelsChartSpec: VisualizationSpec = {
   description: "A line chart showing values over time.",
-  width: 600,
+  width: 700,
   height: 300,
   padding: 5,
+
+  config: {
+    legend: {
+      titleFontSize: 14,
+      labelFontSize: 12,
+    },
+    axis: {
+      titleFontSize: 14,
+      labelFontSize: 12,
+    },
+  },
 
   signals: [
     {
@@ -111,8 +122,8 @@ export const levelsChartSpec: VisualizationSpec = {
     {
       name: "color",
       type: "ordinal",
-      range: [MAIN_BLUE, LIGHT_BLUE],
-      domain: ["Actual Level", "Anticipated Level"],
+      range: [DARK_RED, MAIN_BLUE],
+      domain: ["Actual Reservoir Level", "Target Reservoir Level"],
     },
   ],
 
@@ -122,30 +133,22 @@ export const levelsChartSpec: VisualizationSpec = {
       scale: "x",
       format: "%b %Y",
       title: "Date",
-      tickCount: 9,
+      tickCount: 8,
+      labelAngle: -45,
+      labelPadding: 18,
+      labelOffset: -16,
+      titlePadding: 8,
+      labelFontSize: 10
     },
     {
       orient: "left",
       scale: "y",
-      title: "Level",
+      title: "Reservoir Elevation (ft)",
       format: "~d",
     },
   ],
 
   marks: [
-    {
-      type: "line",
-      from: { data: "actuals" },
-      encode: {
-        enter: {
-          x: { scale: "x", field: "date" },
-          y: { scale: "y", field: "value" },
-          stroke: { value: "steelblue" },
-          strokeWidth: { value: 2 },
-        },
-      },
-    },
-
     {
       type: "line",
       from: { data: "anticipated" },
@@ -154,12 +157,24 @@ export const levelsChartSpec: VisualizationSpec = {
         enter: {
           x: { scale: "x", field: "date" },
           y: { scale: "y", field: "value" },
-          stroke: { value: LIGHT_BLUE },
+          stroke: { value: MAIN_BLUE },
+          strokeWidth: { value: 1.5 },
+          strokeDash: { value: [1.5, 2] },
+        },
+      },
+    },
+    {
+      type: "line",
+      from: { data: "actuals" },
+      encode: {
+        enter: {
+          x: { scale: "x", field: "date" },
+          y: { scale: "y", field: "value" },
+          stroke: { value: DARK_RED },
           strokeWidth: { value: 2 },
         },
       },
     },
-
     {
       type: "symbol",
       from: { data: "actuals_filtered" },
@@ -167,7 +182,7 @@ export const levelsChartSpec: VisualizationSpec = {
         update: {
           x: { scale: "x", field: "argmin.date" },
           y: { scale: "y", field: "min" },
-          stroke: { value: MAIN_BLUE },
+          stroke: { value: DARK_RED },
           fill: { value: "#fff" },
           size: { value: 100 },
           strokeWidth: { value: 3 },
@@ -279,34 +294,34 @@ export const levelsChartSpec: VisualizationSpec = {
         },
 
         {
-            type: "text",
-            encode: {
-              update: {
-                x: { value: TOOLTIP_PADDING_X },
-                y: { value: TOOLTIP_PADDING_Y + TEXT_LINE_HEIGHT * 2 },
-                text: {
-                  signal: "'Actual Level:'",
-                },
-                baseline: { value: "middle" },
-                fontWeight: { value: "bold" },
+          type: "text",
+          encode: {
+            update: {
+              x: { value: TOOLTIP_PADDING_X },
+              y: { value: TOOLTIP_PADDING_Y + TEXT_LINE_HEIGHT * 2 },
+              text: {
+                signal: "'Actual Level:'",
               },
+              baseline: { value: "middle" },
+              fontWeight: { value: "bold" },
             },
           },
-  
-          {
-            type: "text",
-            from: { data: "actuals_filtered" },
-            encode: {
-              update: {
-                x: { value: TOOLTIP_KEY_WIDTH },
-                y: { value: TOOLTIP_PADDING_Y + TEXT_LINE_HEIGHT * 2 },
-                text: {
-                  signal: "round(datum.min * 100) / 100",
-                },
-                baseline: { value: "middle" },
+        },
+
+        {
+          type: "text",
+          from: { data: "actuals_filtered" },
+          encode: {
+            update: {
+              x: { value: TOOLTIP_KEY_WIDTH },
+              y: { value: TOOLTIP_PADDING_Y + TEXT_LINE_HEIGHT * 2 },
+              text: {
+                signal: "round(datum.min * 100) / 100",
               },
+              baseline: { value: "middle" },
             },
           },
+        },
       ],
     },
   ],
@@ -314,15 +329,15 @@ export const levelsChartSpec: VisualizationSpec = {
   legends: [
     {
       fill: "color",
-      title: "Levels",
+      title: "Reservoir Levels",
       orient: "bottom-right",
       offset: 8,
       encode: {
         symbols: {
           update: {
-            strokeWidth: { value: 0 },
-            shape: { value: "square" },
-            opacity: { value: 0.3 },
+            strokeWidth: { value: 1 },
+            shape: { value: "circle" },
+            opacity: { value: 1 },
           },
         },
       },
