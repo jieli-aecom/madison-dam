@@ -9,11 +9,6 @@ AUTH_URL = (
 token = None
 token_expires_at = None
 
-def set_credentials(client_id: str, client_secret: str):
-    global CLIENT_ID, CLIENT_SECRET
-    CLIENT_ID = client_id
-    CLIENT_SECRET = client_secret
-
 def _get_token():
     global token, token_expires_at
     current_seconds = int(datetime.datetime.now().timestamp())
