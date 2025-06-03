@@ -12,7 +12,7 @@ function App() {
           <VegaChart spec={levelsChartSpec} />
         </section>
         <section className="w-full flex flex-col items-center gap-4">
-          <h2 className="m-0 text-xl">Map</h2>
+          <h2 className="m-0 text-xl">Madison Reservoir Dam Rehabilitation Temporary Drawdown Map</h2>
           <LeafletMapContainer />
         </section>
       </section>
