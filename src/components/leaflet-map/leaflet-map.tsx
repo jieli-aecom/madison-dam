@@ -6,8 +6,6 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 
-import "./leaflet-measure";
-import "./leaflet-measure.css";
 import { boundary } from "../../consts/boundary";
 import type { GeoJsonObject } from "geojson";
 import { LIGHT_BLUE } from "../../consts/colors";
