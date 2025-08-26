@@ -2,6 +2,7 @@ import type { Mark } from "vega";
 
 export const pointSpec = (
   dataPointName: string,
+  xFieldName: string,
   size: number,
   fillColor: string,
   pointStrokeColor: string,
@@ -14,7 +15,7 @@ export const pointSpec = (
     from: { data: dataPointName },
     encode: {
       update: {
-        x: { scale: "x", field: "argmin.date" },
+        x: { scale: "x", field: `argmin.${xFieldName}` },
         y: { scale: "y", field: "min" },
         stroke: { value: pointStrokeColor },
         fill: { value: fillColor },

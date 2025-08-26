@@ -4,6 +4,7 @@ const MILLISECONDS_BY_DAY = 60 * 60 * 24 * 1000;
 
 export const dataPointSpec = (
   sourceSeriesName: string,
+  xFieldName: string,
   dataPointName: string,
   signalName: string
 ) => {
@@ -13,7 +14,7 @@ export const dataPointSpec = (
     transform: [
       {
         type: "filter",
-        expr: `(datum.date < ${signalName}) & (datum.date > ${signalName} - ${MILLISECONDS_BY_DAY})`,
+        expr: `(datum.${xFieldName} < ${signalName}) & (datum.${xFieldName} > ${signalName} - ${MILLISECONDS_BY_DAY})`,
       },
       {
         type: "aggregate",

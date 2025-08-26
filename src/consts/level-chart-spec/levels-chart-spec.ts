@@ -7,12 +7,18 @@ import { verticalRuleSpec } from "./vertical-rule-spec";
 import { otherSpecs } from "./other-specs";
 import { dataPointSpec } from "./data-point-spec";
 import type { Mark, Signal } from "vega";
+import { vegaFormatWithDateField } from "./consts";
 
 const SIGNAL_NAME = "lookupDate";
 const ACTUAL_LEVEL_DATA_SERIES_NAME = "actuals";
 const ANTICIPATED_LEVEL_DATA_SERIES_NAME = "anticipated";
+const ANTICIPATED_LEVEL_RANGE_DATA_SERIES_NAME = "anticipated_range";
 const ACTUAL_LEVEL_DATA_POINT_NAME = "actuals_filtered";
 const ANTICIPATED_LEVEL_DATA_POINT_NAME = "anticipated_filtered";
+const X_FIELD_NAME = "date";
+const Y_FIELD_NAME = "value";
+const Y1_FIELD_NAME = "low";
+const Y2_FIELD_NAME = "high";
 
 // Only to avoid type error from vega-lite
 // as `signals` and `marks` are essential parts of the spec
@@ -41,27 +47,25 @@ export const levelsChartSpec: Corrected = {
     {
       name: ACTUAL_LEVEL_DATA_SERIES_NAME,
       url: "data/actuals.json",
-      format: {
-        type: "json",
-        parse: {
-          date: "date:'%Y-%m-%d'",
-        },
-      },
+      format: vegaFormatWithDateField,
     },
     // -------------------------------- Raw Anticipated Level Data
     {
       name: ANTICIPATED_LEVEL_DATA_SERIES_NAME,
       url: "data/anticipated.json",
-      format: {
-        type: "json",
-        parse: {
-          date: "date:'%Y-%m-%d'",
-        },
-      },
+      format: vegaFormatWithDateField,
     },
+    // -------------------------------- Anticipated Level (Range), with `low` and `high` fields
+    {
+      name: ANTICIPATED_LEVEL_RANGE_DATA_SERIES_NAME,
+      url: "data/anticipated_range.json",
+      format: vegaFormatWithDateField,
+    },
+
     // -------------------------------- Anticipated Level Filtered By Current Cursor
     dataPointSpec(
       ANTICIPATED_LEVEL_DATA_SERIES_NAME,
+      X_FIELD_NAME,
       ANTICIPATED_LEVEL_DATA_POINT_NAME,
       SIGNAL_NAME
     ),
@@ -69,6 +73,7 @@ export const levelsChartSpec: Corrected = {
     // -------------------------------- Actual Level Filtered By Current Cursor
     dataPointSpec(
       ACTUAL_LEVEL_DATA_SERIES_NAME,
+      X_FIELD_NAME,
       ACTUAL_LEVEL_DATA_POINT_NAME,
       SIGNAL_NAME
     ),
@@ -76,16 +81,44 @@ export const levelsChartSpec: Corrected = {
 
   marks: [
     // -------------------------------- Anticipated Level Line (Dashed)
-    lineSpec(ANTICIPATED_LEVEL_DATA_SERIES_NAME, MAIN_BLUE, 1.5, [1.5, 2]),
+    lineSpec(
+      ANTICIPATED_LEVEL_DATA_SERIES_NAME,
+      X_FIELD_NAME,
+      Y_FIELD_NAME,
+      MAIN_BLUE,
+      1.5,
+      [1.5, 2]
+    ),
 
     // -------------------------------- Actual Level Line (Highlighted)
-    lineSpec(ACTUAL_LEVEL_DATA_SERIES_NAME, DARK_RED, 2, []),
+    lineSpec(
+      ACTUAL_LEVEL_DATA_SERIES_NAME,
+      X_FIELD_NAME,
+      Y_FIELD_NAME,
+      DARK_RED,
+      2,
+      []
+    ),
 
     // -------------------------------- Actual Level Point Based on Cursor
-    pointSpec(ACTUAL_LEVEL_DATA_POINT_NAME, 100, "#fff", DARK_RED, 3),
+    pointSpec(
+      ACTUAL_LEVEL_DATA_POINT_NAME,
+      X_FIELD_NAME,
+      100,
+      "#fff",
+      DARK_RED,
+      3
+    ),
 
     // -------------------------------- Anticipated Level Point Based on Cursor
-    pointSpec(ANTICIPATED_LEVEL_DATA_POINT_NAME, 100, "#fff", LIGHT_BLUE, 3),
+    pointSpec(
+      ANTICIPATED_LEVEL_DATA_POINT_NAME,
+      X_FIELD_NAME,
+      100,
+      "#fff",
+      LIGHT_BLUE,
+      3
+    ),
 
     // -------------------------------- Vertical Rule Line Based on Cursor
     verticalRuleSpec(LIGHT_GRAY, SIGNAL_NAME),
