@@ -80,6 +80,22 @@ export const levelsChartSpec: Corrected = {
   ],
 
   marks: [
+    // -------------------------------- Anticipated Level Range Area
+    {
+      type: "area",
+      from: { data: ANTICIPATED_LEVEL_RANGE_DATA_SERIES_NAME },
+      clip: true,
+      encode: {
+        enter: {
+          x: { scale: "x", field: X_FIELD_NAME },
+          y: { scale: "y", field: Y1_FIELD_NAME },
+          y2: { scale: "y", field: Y2_FIELD_NAME },
+          fill: { value: LIGHT_BLUE },
+          fillOpacity: { value: 0.3 },
+        },
+      },
+    },
+
     // -------------------------------- Anticipated Level Line (Dashed)
     lineSpec(
       ANTICIPATED_LEVEL_DATA_SERIES_NAME,
