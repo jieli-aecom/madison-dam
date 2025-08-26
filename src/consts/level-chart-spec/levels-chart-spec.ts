@@ -6,6 +6,7 @@ import { pointSpec } from "./point-spec";
 import { verticalRuleSpec } from "./vertical-rule-spec";
 import { otherSpecs } from "./other-specs";
 import { dataPointSpec } from "./data-point-spec";
+import type { Mark, Signal } from "vega";
 
 const SIGNAL_NAME = "lookupDate";
 const ACTUAL_LEVEL_DATA_SERIES_NAME = "actuals";
@@ -13,7 +14,12 @@ const ANTICIPATED_LEVEL_DATA_SERIES_NAME = "anticipated";
 const ACTUAL_LEVEL_DATA_POINT_NAME = "actuals_filtered";
 const ANTICIPATED_LEVEL_DATA_POINT_NAME = "anticipated_filtered";
 
-export const levelsChartSpec: VisualizationSpec = {
+type ExtendedVisualizationSpec = VisualizationSpec & {
+  signals?: Signal[];
+  marks?: Mark[];
+};
+
+export const levelsChartSpec: ExtendedVisualizationSpec = {
   ...otherSpecs,
   signals: [
     {
