@@ -13,7 +13,7 @@ export function LeafletMapContainer() {
     if (distanceFt <= FEET_IN_MILE) {
       return `${Math.round(distanceFt).toLocaleString()} ft`;
     }
-    return `${(Math.round(distanceFt * 100 / FEET_IN_MILE) / 100).toLocaleString()} miles`;
+    return `${(Math.round(distanceFt * 100 / FEET_IN_MILE) / 100).toLocaleString()} mi`;
   }, [distanceFt]);
 
   return (
