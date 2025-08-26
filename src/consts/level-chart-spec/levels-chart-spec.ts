@@ -14,12 +14,15 @@ const ANTICIPATED_LEVEL_DATA_SERIES_NAME = "anticipated";
 const ACTUAL_LEVEL_DATA_POINT_NAME = "actuals_filtered";
 const ANTICIPATED_LEVEL_DATA_POINT_NAME = "anticipated_filtered";
 
-type ExtendedVisualizationSpec = VisualizationSpec & {
+// Only to avoid type error from vega-lite
+// as `signals` and `marks` are essential parts of the spec
+// but when it's defined dynamically like here, TS fails to recognize them.
+type Corrected = VisualizationSpec & {
   signals?: Signal[];
   marks?: Mark[];
 };
 
-export const levelsChartSpec: ExtendedVisualizationSpec = {
+export const levelsChartSpec: Corrected = {
   ...otherSpecs,
   signals: [
     {
