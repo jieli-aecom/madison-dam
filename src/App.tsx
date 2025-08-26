@@ -1,6 +1,6 @@
 import "./App.css";
 import { VegaChart } from "./components/vega-chart";
-import { levelsChartSpec } from "./consts/levels-chart-spec";
+import { levelsChartSpec } from "./consts/level-chart-spec/levels-chart-spec";
 import { LeafletMapContainer } from "./components/leaflet-map/leaflet-map-container";
 
 function App() {
