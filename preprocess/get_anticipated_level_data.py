@@ -2,7 +2,7 @@ import datetime
 import json
 
 TARGET_FILE = "public/data/anticipated.json"
-TARGET_RANGE_FILE = "public/data/anticipated_with_range.json"
+TARGET_RANGE_FILE = "public/data/anticipated_range.json"
 
 BREAKS = {
     "2024-11-01": 1208.2,
