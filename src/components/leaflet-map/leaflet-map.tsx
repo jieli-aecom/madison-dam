@@ -1,5 +1,5 @@
 import type { LeafletMouseEvent } from "leaflet";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import {
   TileLayer,
   useMapEvents,
@@ -17,7 +17,7 @@ import { MARKER_OPTIONS, REF_MARKER_OPTIONS } from "../../consts/map";
 import type { LatLngExpression } from "leaflet";
 
 const tileAccount = "mapbox";
-const tileStyle = "satellite-v9";
+const tileStyle = "satellite-streets-v12";
 const tileToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const mapboxUrl = `https://api.mapbox.com/styles/v1/${tileAccount}/${tileStyle}/tiles/256/{z}/{x}/{y}@2x?access_token=${tileToken}`;
@@ -64,28 +64,28 @@ export function LeafletMap(props: LeafletMapProps) {
   const markerLayer = useRef<L.LayerGroup>(null);
   const boundaryLayer = useRef<L.Layer>(null);
 
-  const addMarkerLayer = () => {
+  const addMarkerLayer = useCallback(() => {
     if (markerLayer.current) {
       map.removeLayer(markerLayer.current);
     }
     markerLayer.current = L.layerGroup().addTo(map);
-  };
+  }, [map]);
 
-  const addBoundaryLayer = () => {
+  const addBoundaryLayer = useCallback(() => {
     if (boundaryLayer.current) {
       map.removeLayer(boundaryLayer.current);
     }
 
     boundaryLayer.current = L.geoJSON(boundary as GeoJsonObject);
     boundaryLayer.current.addTo(map);
-  };
+  }, [map]);
 
   useEffect(() => {
     if (!map) return;
     // addMeasureTool(map);
     addBoundaryLayer();
     addMarkerLayer();
-  }, [map]);
+  }, [map, addBoundaryLayer, addMarkerLayer]);
 
   return <TileLayer attribution={mapboxAttribution} url={mapboxUrl} />;
 }
