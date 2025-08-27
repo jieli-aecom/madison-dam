@@ -1,5 +1,5 @@
 import type { VisualizationSpec } from "vega-embed";
-import { DARK_RED, MAIN_BLUE } from "../colors";
+import { DARK_RED, LIGHT_BLUE, MAIN_BLUE } from "../colors";
 
 export const otherSpecs: VisualizationSpec = {
   description: "A line chart showing values over time.",
@@ -61,8 +61,8 @@ export const otherSpecs: VisualizationSpec = {
     {
       name: "color",
       type: "ordinal",
-      range: [DARK_RED, MAIN_BLUE],
-      domain: ["Actual Reservoir Level", "Target Reservoir Level"],
+      range: [DARK_RED, MAIN_BLUE, LIGHT_BLUE],
+      domain: ["Actual Reservoir Level", "Target Reservoir Level", "Refill Time Range"],
     },
   ],
 

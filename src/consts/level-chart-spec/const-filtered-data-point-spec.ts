@@ -8,15 +8,22 @@ const isoDateStringToMillisTimestamp = (dateString: string) => {
 
 export type DateFilteredDataPointSpecParams = {
   sourceSeriesName: string;
-    dataPointName: string;
-    dateFieldName: string;
-    isoDateString: string;
+  dataPointName: string;
+  dateFieldName: string;
+  isoDateString: string;
+  yFieldName?: string;
 };
 
 export const dateFilteredDataPointSpec = (
-    params: DateFilteredDataPointSpecParams
+  params: DateFilteredDataPointSpecParams
 ) => {
-    const { sourceSeriesName, dataPointName, dateFieldName, isoDateString } = params;
+  const {
+    sourceSeriesName,
+    dataPointName,
+    dateFieldName,
+    isoDateString,
+    yFieldName = "value",
+  } = params;
   const targetTimestamp = isoDateStringToMillisTimestamp(isoDateString);
   return {
     name: dataPointName,
@@ -28,7 +35,7 @@ export const dateFilteredDataPointSpec = (
       },
       {
         type: "aggregate",
-        fields: ["value", "value"],
+        fields: [yFieldName, yFieldName],
         ops: ["min", "argmin"],
         as: ["min", "argmin"],
       },

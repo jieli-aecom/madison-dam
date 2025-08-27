@@ -36,6 +36,9 @@ const BEGIN_REFILL_DATE_STRING = "2027-12-31";
 const NORMAL_WINTER_DRAWDOWN_2028_DATA_POINT_NAME = "normalWinterDrawdown2028";
 const NORMAL_WINTER_DRAWDOWN_2028_DATE_STRING = "2028-11-03";
 
+const REFILL_RANGE_DATA_POINT_NAME = "refillRange";
+const REFILL_RANGE_DATE_STRING = "2028-06-03";
+
 const X_FIELD_NAME = "date";
 const Y_FIELD_NAME = "value";
 const Y1_FIELD_NAME = "low";
@@ -133,6 +136,14 @@ export const levelsChartSpec: Corrected = {
       dataPointName: NORMAL_WINTER_DRAWDOWN_2028_DATA_POINT_NAME,
       dateFieldName: X_FIELD_NAME,
       isoDateString: NORMAL_WINTER_DRAWDOWN_2028_DATE_STRING,
+    }),
+
+    dateFilteredDataPointSpec({
+      sourceSeriesName: ANTICIPATED_LEVEL_RANGE_DATA_SERIES_NAME,
+      dataPointName: REFILL_RANGE_DATA_POINT_NAME,
+      dateFieldName: X_FIELD_NAME,
+      yFieldName: Y1_FIELD_NAME,
+      isoDateString: REFILL_RANGE_DATE_STRING,
     }),
   ],
 
@@ -233,6 +244,19 @@ export const levelsChartSpec: Corrected = {
       textLines: ["Normal Winter", "Drawdown", "November 2028"],
       width: 90,
       position: "top-left",
+    }),
+
+    // ------------------------------- Labels for Refill Range
+    pointLabelSpec({
+      dataPointName: REFILL_RANGE_DATA_POINT_NAME,
+      xFieldName: X_FIELD_NAME,
+      offsetDistanceFactor: 1.5,
+      textLines: ["Range of Reservoir Refill", "Time (Dependent on", "Precipitation / Weather"],
+      width: 125,
+      position: "bottom-right",
+      textColor: MAIN_BLUE,
+      boxFillColor: LIGHT_BLUE,
+      boxStrokeColor: LIGHT_BLUE,
     }),
 
     // -------------------------------- Actual Level Point Based on Cursor
