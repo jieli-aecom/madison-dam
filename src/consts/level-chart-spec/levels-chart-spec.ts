@@ -186,7 +186,7 @@ export const levelsChartSpec: Corrected = {
       strokeColor: LIGHT_GRAY,
       textColor: MAIN_BLUE,
       text: "Target Construction Drawdown Level 1201.2 ft",
-      xOffset: 275,
+      xOffset: 280,
     }),
 
     // ------------------------------- Permenant labels for drawdown milestones
