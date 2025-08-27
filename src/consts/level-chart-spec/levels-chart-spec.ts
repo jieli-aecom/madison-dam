@@ -21,7 +21,19 @@ const ANTICIPATED_LEVEL_DATA_POINT_NAME = "anticipated_filtered";
 
 // Drawdown data points
 const NORMAL_WINTER_DRAWDOWN_2025_DATA_POINT_NAME = "normalWinterDrawdown2025";
-const NORMAL_WINTER_DRAWDOWN_2025_DATE_STRING = "2025-12-03";
+const NORMAL_WINTER_DRAWDOWN_2025_DATE_STRING = "2025-11-03";
+
+const BEGIN_CONSTRUCTION_DATA_POINT_NAME = "beginConstruction";
+const BEGIN_CONSTRUCTION_DATE_STRING = "2026-03-15";
+
+const ACHIEVE_10FT_DRAWDOWN_DATA_POINT_NAME = "achieve10ftDrawdown";
+const ACHIEVE_10FT_DRAWDOWN_DATE_STRING = "2026-05-15";
+
+const BEGIN_REFILL_DATA_POINT_NAME = "beginRefill";
+const BEGIN_REFILL_DATE_STRING = "2027-12-31";
+
+const NORMAL_WINTER_DRAWDOWN_2028_DATA_POINT_NAME = "normalWinterDrawdown2028";
+const NORMAL_WINTER_DRAWDOWN_2028_DATE_STRING = "2028-11-03";
 
 const X_FIELD_NAME = "date";
 const Y_FIELD_NAME = "value";
@@ -86,12 +98,41 @@ export const levelsChartSpec: Corrected = {
       signalName: SIGNAL_NAME,
     }),
 
+    // -------------------------------- Markup data points for labels
     dateFilteredDataPointSpec({
       sourceSeriesName: ANTICIPATED_LEVEL_DATA_SERIES_NAME,
       dataPointName: NORMAL_WINTER_DRAWDOWN_2025_DATA_POINT_NAME,
       dateFieldName: X_FIELD_NAME,
       isoDateString: NORMAL_WINTER_DRAWDOWN_2025_DATE_STRING,
     }),
+
+    dateFilteredDataPointSpec({
+      sourceSeriesName: ANTICIPATED_LEVEL_DATA_SERIES_NAME,
+      dataPointName: BEGIN_CONSTRUCTION_DATA_POINT_NAME,
+      dateFieldName: X_FIELD_NAME,
+      isoDateString: BEGIN_CONSTRUCTION_DATE_STRING,
+    }),
+
+    dateFilteredDataPointSpec({
+      sourceSeriesName: ANTICIPATED_LEVEL_DATA_SERIES_NAME,
+      dataPointName: ACHIEVE_10FT_DRAWDOWN_DATA_POINT_NAME,
+      dateFieldName: X_FIELD_NAME,
+      isoDateString: ACHIEVE_10FT_DRAWDOWN_DATE_STRING,
+    }),
+
+    dateFilteredDataPointSpec({
+      sourceSeriesName: ANTICIPATED_LEVEL_DATA_SERIES_NAME,
+      dataPointName: BEGIN_REFILL_DATA_POINT_NAME,
+      dateFieldName: X_FIELD_NAME,
+      isoDateString: BEGIN_REFILL_DATE_STRING,
+    }),
+
+    dateFilteredDataPointSpec({
+      sourceSeriesName: ANTICIPATED_LEVEL_DATA_SERIES_NAME,
+      dataPointName: NORMAL_WINTER_DRAWDOWN_2028_DATA_POINT_NAME,
+      dateFieldName: X_FIELD_NAME,
+      isoDateString: NORMAL_WINTER_DRAWDOWN_2028_DATE_STRING,
+    })
   ],
 
   marks: [
@@ -123,10 +164,51 @@ export const levelsChartSpec: Corrected = {
       strokeColor: DARK_RED,
       strokeWidth: 2,
     }),
-    // ------------------------------- Background box for label
+
+    // ------------------------------- Permenant labels for drawdown milestones
     pointLabelSpec({
       dataPointName: NORMAL_WINTER_DRAWDOWN_2025_DATA_POINT_NAME,
       xFieldName: X_FIELD_NAME,
+      offsetDistanceFactor: 1.5,
+      textLines: ["Normal Winter", "Drawdown", "November 2025"],
+      width: 90,
+      position: "top-right",
+    }),
+
+    pointLabelSpec({
+      dataPointName: BEGIN_CONSTRUCTION_DATA_POINT_NAME,
+      xFieldName: X_FIELD_NAME,
+      offsetDistanceFactor: 1.5,
+      textLines: ["Begin Construction", "March 2026"],
+      width: 100,
+      position: "bottom-left",
+    }),
+
+    pointLabelSpec({
+      dataPointName: ACHIEVE_10FT_DRAWDOWN_DATA_POINT_NAME,
+      xFieldName: X_FIELD_NAME,
+      offsetDistanceFactor: 1.5,
+      textLines: ["Achieve 10 ft", "Drawdown", "May 2026"],
+      width: 75,
+      position: "top-right",
+    }),
+
+    pointLabelSpec({
+      dataPointName: BEGIN_REFILL_DATA_POINT_NAME,
+      xFieldName: X_FIELD_NAME,
+      offsetDistanceFactor: 1.5,
+      textLines: ["Begin Refill", "January 2028"],
+      width: 75,
+      position: "top-left",
+    }),
+
+    pointLabelSpec({
+      dataPointName: NORMAL_WINTER_DRAWDOWN_2028_DATA_POINT_NAME,
+      xFieldName: X_FIELD_NAME,
+      offsetDistanceFactor: 1.5,
+      textLines: ["Normal Winter", "Drawdown", "November 2028"],
+      width: 90,
+      position: "top-left",
     }),
 
     // -------------------------------- Actual Level Point Based on Cursor

@@ -1,39 +1,118 @@
-import type { Mark } from "vega";
-import { DARK_RED } from "../colors";
+import type { GroupMark } from "vega";
+import { MAIN_BLUE } from "../colors";
 
-const TOOLTIP_WIDTH = 155;
-const TEXT_LINE_HEIGHT = 15;
-const TOOLTIP_PADDING_X = 6;
-const TOOLTIP_PADDING_Y = 14;
-const TOOLTIP_HEIGHT = TOOLTIP_PADDING_X * 2 + TEXT_LINE_HEIGHT * 3;
-const TOOLTIP_KEY_WIDTH = 110;
+const PADDING_X = 6;
+const PADDING_Y = 6;
+
+const BASE_OFFSET = 10;
+const LINE_EXTEND_FACTOR = 1.1;
 
 export type PointLabelSpecParams = {
   dataPointName: string;
   xFieldName: string;
+  position?:
+    | "top"
+    | "bottom"
+    | "left"
+    | "right"
+    | "top-right"
+    | "top-left"
+    | "bottom-right"
+    | "bottom-left";
+  offsetDistanceFactor?: number;
+  width?: number;
+  zIndex?: number;
+  boxStrokeColor?: string;
+  boxFillColor?: string;
+  boxStrokeWidth?: number;
+  boxFillOpacity?: number;
+  boxCornerRadius?: number;
+  lineStrokeColor?: string;
+  lineStrokeWidth?: number;
+  lineStrokeDash?: number[];
+  lineHeight?: number;
+  fontSize?: number;
+  textColor?: string;
+  textLines?: string[];
 };
 
 export const pointLabelSpec = (params: PointLabelSpecParams) => {
-  const { dataPointName, xFieldName } = params;
-  return {
+  const {
+    dataPointName,
+    xFieldName,
+    width = 150,
+    position = "top-right",
+    offsetDistanceFactor = 1,
+    zIndex = 1,
+    boxStrokeColor = MAIN_BLUE,
+    boxFillColor = MAIN_BLUE,
+    boxStrokeWidth = 1,
+    boxFillOpacity = 0.9,
+    boxCornerRadius = 3,
+    lineStrokeColor = MAIN_BLUE,
+    lineStrokeWidth = 1,
+    lineStrokeDash = [1, 0],
+    lineHeight = 12,
+    fontSize = 10,
+    textColor = "#fff",
+    textLines = ["Label Text"],
+  } = params;
+
+  const height = textLines.length * lineHeight + PADDING_Y * 2;
+
+  const isDiagonalOffset = position.split("-").length === 2;
+  const isHorizontalOffset = position === "left" || position === "right";
+  const isVerticalOffset = position === "top" || position === "bottom";
+
+  const offsetFactor = isDiagonalOffset ? 1 : Math.sqrt(2);
+  const xOffsetDirection = position.includes("left") ? -1 : 1;
+  const xAdditionalLeftOffset = position.includes("left") ? -width : 0;
+  const yOffsetDirection = position.includes("bottom") ? 1 : -1;
+  const yAdditionalTopOffset = position.includes("top") ? -height : 0;
+
+  const boxXOffset = !isVerticalOffset
+    ? BASE_OFFSET * offsetFactor * xOffsetDirection * offsetDistanceFactor +
+      xAdditionalLeftOffset
+    : -width / 2;
+  const boxYOffset = !isHorizontalOffset
+    ? BASE_OFFSET * offsetFactor * yOffsetDirection * offsetDistanceFactor +
+      yAdditionalTopOffset
+    : -height / 2;
+
+  const lineXOffset = !isVerticalOffset
+    ? BASE_OFFSET * LINE_EXTEND_FACTOR * xOffsetDirection * offsetDistanceFactor * offsetFactor
+    : 0;
+  const lineYOffset = !isHorizontalOffset
+    ? BASE_OFFSET * LINE_EXTEND_FACTOR * yOffsetDirection * offsetDistanceFactor * offsetFactor
+    : 0;
+
+  const firstLineXOffset = boxXOffset + PADDING_X;
+  const firstLineYOffset = boxYOffset + lineHeight + PADDING_Y;
+
+  const mark = {
     type: "group",
     from: { data: dataPointName },
     marks: [
+      // ------------------------------- Background box for label
       {
         type: "rect",
         from: { data: dataPointName },
         encode: {
           update: {
-            x: { scale: "x", field: `argmin.${xFieldName}`, offset: 5 }, // 5px to the right
-            y: { scale: "y", field: "min", offset: -25 }, // Position above point
-            width: { value: 150 }, // Adjust width as needed
-            height: { value: 18 }, // Adjust height as needed
-            fill: { value: "#fff" },
-            stroke: { value: DARK_RED },
-            strokeWidth: { value: 1 },
-            cornerRadius: { value: 3 },
-            fillOpacity: { value: 0.9 },
-            zindex: { value: 1 },
+            x: {
+              scale: "x",
+              field: `argmin.${xFieldName}`,
+              offset: boxXOffset,
+            },
+            y: { scale: "y", field: "min", offset: boxYOffset },
+            width: { value: width },
+            height: { value: height },
+            fill: { value: boxFillColor },
+            stroke: { value: boxStrokeColor },
+            strokeWidth: { value: boxStrokeWidth },
+            cornerRadius: { value: boxCornerRadius },
+            fillOpacity: { value: boxFillOpacity },
+            zindex: { value: zIndex },
           },
         },
       },
@@ -46,35 +125,44 @@ export const pointLabelSpec = (params: PointLabelSpecParams) => {
           update: {
             x: { scale: "x", field: `argmin.${xFieldName}` }, // Start at point
             y: { scale: "y", field: "min" }, // Start at point
-            x2: { scale: "x", field: `argmin.${xFieldName}`, offset: 10 }, // End at label start
-            y2: { scale: "y", field: "min", offset: -10 }, // End at label
-            stroke: { value: DARK_RED },
-            strokeWidth: { value: 1 },
-            strokeDash: { value: [2, 2] }, // Optional: dashed line
-            opacity: { value: 0.7 },
-            zindex: { value: 1 },
-          },
-        },
-      },
-
-      // ------------------------------- Label text
-      {
-        type: "text",
-        from: { data: dataPointName },
-        encode: {
-          update: {
-            x: { scale: "x", field: `argmin.${xFieldName}`, offset: 10 }, // 10px to the right
-            y: { scale: "y", field: "min", offset: -10 }, // 10px above
-            text: { value: "Normal Winter Drawdown" },
-            fontSize: { value: 12 },
-            fontWeight: { value: "bold" },
-            fill: { value: DARK_RED },
-            align: { value: "left" },
-            baseline: { value: "bottom" },
-            zindex: { value: 2 }, // Above background box
+            x2: {
+              scale: "x",
+              field: `argmin.${xFieldName}`,
+              offset: lineXOffset,
+            }, // End at label start
+            y2: { scale: "y", field: "min", offset: lineYOffset }, // End at label
+            stroke: { value: lineStrokeColor },
+            strokeWidth: { value: lineStrokeWidth },
+            strokeDash: { value: lineStrokeDash },
+            zindex: { value: zIndex },
           },
         },
       },
     ],
-  } as Mark;
+  } as GroupMark;
+
+  for (const textLine of textLines) {
+    const lineYOffset =
+      firstLineYOffset + textLines.indexOf(textLine) * lineHeight;
+    mark?.marks?.push({
+      type: "text",
+      from: { data: dataPointName },
+      encode: {
+        update: {
+          x: {
+            scale: "x",
+            field: `argmin.${xFieldName}`,
+            offset: firstLineXOffset,
+          }, // 10px to the right
+          y: { scale: "y", field: "min", offset: lineYOffset }, // 10px above
+          text: { value: textLine },
+          fontSize: { value: fontSize },
+          fill: { value: textColor },
+          baseline: { value: "bottom" },
+          zindex: { value: zIndex + 1 }, // Above background box
+        },
+      },
+    });
+  }
+  return mark;
 };
