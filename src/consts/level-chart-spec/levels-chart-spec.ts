@@ -111,24 +111,23 @@ export const levelsChartSpec: Corrected = {
     },
 
     // -------------------------------- Anticipated Level Line (Dashed)
-    lineSpec(
-      {dataSeriesName:ANTICIPATED_LEVEL_DATA_SERIES_NAME,
-      xFieldName:X_FIELD_NAME,
-      yFieldName:Y_FIELD_NAME,
-      strokeColor:MAIN_BLUE,
-      strokeWidth:1.5,
-      dash:[1.5, 2]}
-    ),
+    lineSpec({
+      dataSeriesName: ANTICIPATED_LEVEL_DATA_SERIES_NAME,
+      xFieldName: X_FIELD_NAME,
+      yFieldName: Y_FIELD_NAME,
+      strokeColor: MAIN_BLUE,
+      strokeWidth: 1.5,
+      dash: [1.5, 2],
+    }),
 
     // -------------------------------- Actual Level Line (Highlighted)
-    lineSpec(
-      {dataSeriesName:ACTUAL_LEVEL_DATA_SERIES_NAME,
-      xFieldName:X_FIELD_NAME,
-      yFieldName:Y_FIELD_NAME,
-      strokeColor:DARK_RED,
-      strokeWidth:2,
-      }
-    ),
+    lineSpec({
+      dataSeriesName: ACTUAL_LEVEL_DATA_SERIES_NAME,
+      xFieldName: X_FIELD_NAME,
+      yFieldName: Y_FIELD_NAME,
+      strokeColor: DARK_RED,
+      strokeWidth: 2,
+    }),
     // ------------------------------- Background box for label
     pointLabelSpec({
       dataPointName: NORMAL_WINTER_DRAWDOWN_2025_DATA_POINT_NAME,
