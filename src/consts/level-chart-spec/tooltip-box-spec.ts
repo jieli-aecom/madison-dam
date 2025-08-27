@@ -38,7 +38,7 @@ export const tooltipBoxSpec = (
     marks: [
       {
         type: "text",
-        from: { data: actualDataPointName },
+        from: { data: anticipatedDataPointName },
         encode: {
           update: {
             x: { value: TOOLTIP_PADDING_X },
@@ -69,7 +69,7 @@ export const tooltipBoxSpec = (
 
       {
         type: "text",
-        from: { data: "anticipated_filtered" },
+        from: { data: anticipatedDataPointName },
         encode: {
           update: {
             x: { value: TOOLTIP_KEY_WIDTH },
@@ -99,7 +99,7 @@ export const tooltipBoxSpec = (
 
       {
         type: "text",
-        from: { data: "actuals_filtered" },
+        from: { data: actualDataPointName },
         encode: {
           update: {
             x: { value: TOOLTIP_KEY_WIDTH },

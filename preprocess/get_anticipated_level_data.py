@@ -5,46 +5,90 @@ TARGET_FILE = "public/data/anticipated.json"
 TARGET_RANGE_FILE = "public/data/anticipated_range.json"
 
 BREAKS = {
-    "2024-11-01": 1208.2,
-    "2025-03-01": 1208.2,
     "2025-04-01": 1211.2,
     "2025-11-03": 1211.2,
     "2025-12-03": 1208.2,
-    "2026-01-30": 1208.2,
-    "2026-03-03": 1201.2,
-    "2027-11-01": 1201.2,
-    "2028-03-31": 1211.2,
-    "2028-11-01": 1211.2,
+    "2026-03-15": 1208.2,
+    "2026-05-15": 1201.2,
+    "2027-12-31": 1201.2,
+    "2028-04-17": None,
+    "2028-05-31": 1211.2,
+    "2028-09-22": 1211.2,
+    "2028-11-03": 1211.2,
+    "2028-12-03": 1208.2,
+    "2029-03-15": 1208.2,
 }
 
 LOWER_BREAKS = {
-    "2024-11-01": 1208.2,
-    "2025-03-01": 1208.2,
     "2025-04-01": 1211.2,
     "2025-11-03": 1211.2,
     "2025-12-03": 1208.2,
-    "2026-01-30": 1208.2,
-    "2026-03-03": 1201.2,
-    "2027-11-01": 1201.2,
-    "2028-03-31": 1208.2,
-    "2028-11-01": 1208.2,
+    "2026-03-15": 1208.2,
+    "2026-05-15": 1201.2,
+    "2027-12-31": 1201.2,
+    "2028-04-17": None,
+    "2028-05-31": None,
+    "2028-09-22": 1211.2,
+    "2028-11-03": 1211.2,
+    "2028-12-03": 1208.2,
+    "2029-03-15": 1208.2,
 }
 
 HIGHER_BREAKS = {
-    "2024-11-01": 1208.2,
-    "2025-03-01": 1208.2,
     "2025-04-01": 1211.2,
     "2025-11-03": 1211.2,
     "2025-12-03": 1208.2,
-    "2026-01-30": 1208.2,
-    "2026-03-03": 1201.2,
-    "2027-11-01": 1201.2,
-    "2028-03-31": 1211.2,
-    "2028-11-01": 1211.2,
+    "2026-03-15": 1208.2,
+    "2026-05-15": 1201.2,
+    "2027-12-31": 1201.2,
+    "2028-04-17": 1211.2,
+    "2028-05-31": 1211.2,
+    "2028-09-22": 1211.2,
+    "2028-11-03": 1211.2,
+    "2028-12-03": 1208.2,
+    "2029-03-15": 1208.2,
 }
+
+def fill_breaks_in_place(breaks_dict):
+    # Start and end must not be None
+    assert breaks_dict[list(breaks_dict.keys())[0]] is not None
+    assert breaks_dict[list(breaks_dict.keys())[-1]] is not None
+
+    # Fill None values by linear interpolation
+    keys = list(breaks_dict.keys())
+    n = len(keys)
+    i = 0
+    while i < n:
+        if breaks_dict[keys[i]] is None:
+            this_date = datetime.datetime.strptime(keys[i], "%Y-%m-%d")
+
+            j = i + 1
+            while j < n and breaks_dict[keys[j]] is None:
+                j += 1
+            assert j < n
+            start_date = datetime.datetime.strptime(keys[i - 1], "%Y-%m-%d")
+            end_date = datetime.datetime.strptime(keys[j], "%Y-%m-%d")
+            start_value = breaks_dict[keys[i - 1]]
+            end_value = breaks_dict[keys[j]]
+            delta_days = (end_date - start_date).days
+            delta_value = end_value - start_value
+            daily_increment = delta_value / delta_days
+            for k in range(i, j):
+                current_date = datetime.datetime.strptime(keys[k], "%Y-%m-%d")
+                days_from_start = (current_date - start_date).days
+                breaks_dict[keys[k]] = start_value + daily_increment * days_from_start
+            i = j
+        else:
+            i += 1
+
 
 
 def main():
+
+    # Fill in any None values in BREAKS
+    fill_breaks_in_place(BREAKS)
+    fill_breaks_in_place(LOWER_BREAKS)
+    fill_breaks_in_place(HIGHER_BREAKS)
 
     break_dates = [
         datetime.datetime.strptime(date_str, "%Y-%m-%d") for date_str in BREAKS.keys()
@@ -127,7 +171,7 @@ def main():
     ]
     with open(TARGET_FILE, "w") as f:
         json.dump(anticipated_data, f, indent=4)
-    
+
     with open(TARGET_RANGE_FILE, "w") as f:
         json.dump(anticipated_data_with_range, f, indent=4)
 
