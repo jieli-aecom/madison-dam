@@ -2,12 +2,17 @@ import type { Data } from "vega";
 
 const MILLISECONDS_BY_DAY = 60 * 60 * 24 * 1000;
 
+export type CursorFilteredDataPointSpecParams = {
+  sourceSeriesName: string;
+  xFieldName: string;
+  dataPointName: string;
+  signalName: string;
+};
+
 export const cursorFilteredDataPointSpec = (
-  sourceSeriesName: string,
-  xFieldName: string,
-  dataPointName: string,
-  signalName: string
+  params: CursorFilteredDataPointSpecParams
 ) => {
+  const { sourceSeriesName, xFieldName, dataPointName, signalName } = params;
   return {
     name: dataPointName,
     source: sourceSeriesName, // Filtering from the actuals dataset

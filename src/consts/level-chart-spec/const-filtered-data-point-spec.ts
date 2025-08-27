@@ -6,12 +6,17 @@ const isoDateStringToMillisTimestamp = (dateString: string) => {
   return new Date(dateString).getTime();
 };
 
+export type DateFilteredDataPointSpecParams = {
+  sourceSeriesName: string;
+    dataPointName: string;
+    dateFieldName: string;
+    isoDateString: string;
+};
+
 export const dateFilteredDataPointSpec = (
-  sourceSeriesName: string,
-  dataPointName: string,
-  dateFieldName: string,
-  isoDateString: string
+    params: DateFilteredDataPointSpecParams
 ) => {
+    const { sourceSeriesName, dataPointName, dateFieldName, isoDateString } = params;
   const targetTimestamp = isoDateStringToMillisTimestamp(isoDateString);
   return {
     name: dataPointName,

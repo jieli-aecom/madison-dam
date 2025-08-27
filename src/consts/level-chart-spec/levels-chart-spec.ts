@@ -10,6 +10,7 @@ import type { Mark, Signal } from "vega";
 import { vegaFormatWithDateField } from "./consts";
 import { dateFilteredDataPointSpec } from "./const-filtered-data-point-spec";
 import { pointLabelSpec } from "./label-spec";
+import { lineAreaSpec } from "./line-area-spec";
 
 const SIGNAL_NAME = "lookupDate";
 const ACTUAL_LEVEL_DATA_SERIES_NAME = "actuals";
@@ -70,45 +71,39 @@ export const levelsChartSpec: Corrected = {
     },
 
     // -------------------------------- Anticipated Level Filtered By Current Cursor
-    cursorFilteredDataPointSpec(
-      ANTICIPATED_LEVEL_DATA_SERIES_NAME,
-      X_FIELD_NAME,
-      ANTICIPATED_LEVEL_DATA_POINT_NAME,
-      SIGNAL_NAME
-    ),
+    cursorFilteredDataPointSpec({
+      sourceSeriesName: ANTICIPATED_LEVEL_DATA_SERIES_NAME,
+      xFieldName: X_FIELD_NAME,
+      dataPointName: ANTICIPATED_LEVEL_DATA_POINT_NAME,
+      signalName: SIGNAL_NAME,
+    }),
 
     // -------------------------------- Actual Level Filtered By Current Cursor
-    cursorFilteredDataPointSpec(
-      ACTUAL_LEVEL_DATA_SERIES_NAME,
-      X_FIELD_NAME,
-      ACTUAL_LEVEL_DATA_POINT_NAME,
-      SIGNAL_NAME
-    ),
+    cursorFilteredDataPointSpec({
+      sourceSeriesName: ACTUAL_LEVEL_DATA_SERIES_NAME,
+      xFieldName: X_FIELD_NAME,
+      dataPointName: ACTUAL_LEVEL_DATA_POINT_NAME,
+      signalName: SIGNAL_NAME,
+    }),
 
-    dateFilteredDataPointSpec(
-      ANTICIPATED_LEVEL_DATA_SERIES_NAME,
-      NORMAL_WINTER_DRAWDOWN_2025_DATA_POINT_NAME,
-      X_FIELD_NAME,
-      NORMAL_WINTER_DRAWDOWN_2025_DATE_STRING
-    ),
+    dateFilteredDataPointSpec({
+      sourceSeriesName: ANTICIPATED_LEVEL_DATA_SERIES_NAME,
+      dataPointName: NORMAL_WINTER_DRAWDOWN_2025_DATA_POINT_NAME,
+      dateFieldName: X_FIELD_NAME,
+      isoDateString: NORMAL_WINTER_DRAWDOWN_2025_DATE_STRING,
+    }),
   ],
 
   marks: [
     // -------------------------------- Anticipated Level Range Area
-    {
-      type: "area",
-      from: { data: ANTICIPATED_LEVEL_RANGE_DATA_SERIES_NAME },
-      clip: true,
-      encode: {
-        enter: {
-          x: { scale: "x", field: X_FIELD_NAME },
-          y: { scale: "y", field: Y1_FIELD_NAME },
-          y2: { scale: "y", field: Y2_FIELD_NAME },
-          fill: { value: LIGHT_BLUE },
-          fillOpacity: { value: 0.3 },
-        },
-      },
-    },
+    lineAreaSpec({
+      sourceSeriesName: ANTICIPATED_LEVEL_RANGE_DATA_SERIES_NAME,
+      xFieldName: X_FIELD_NAME,
+      y1FieldName: Y1_FIELD_NAME,
+      y2FieldName: Y2_FIELD_NAME,
+      fillColor: LIGHT_BLUE,
+      fillOpacity: 0.3,
+    }),
 
     // -------------------------------- Anticipated Level Line (Dashed)
     lineSpec({
