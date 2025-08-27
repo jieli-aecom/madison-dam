@@ -112,22 +112,22 @@ export const levelsChartSpec: Corrected = {
 
     // -------------------------------- Anticipated Level Line (Dashed)
     lineSpec(
-      ANTICIPATED_LEVEL_DATA_SERIES_NAME,
-      X_FIELD_NAME,
-      Y_FIELD_NAME,
-      MAIN_BLUE,
-      1.5,
-      [1.5, 2]
+      {dataSeriesName:ANTICIPATED_LEVEL_DATA_SERIES_NAME,
+      xFieldName:X_FIELD_NAME,
+      yFieldName:Y_FIELD_NAME,
+      strokeColor:MAIN_BLUE,
+      strokeWidth:1.5,
+      dash:[1.5, 2]}
     ),
 
     // -------------------------------- Actual Level Line (Highlighted)
     lineSpec(
-      ACTUAL_LEVEL_DATA_SERIES_NAME,
-      X_FIELD_NAME,
-      Y_FIELD_NAME,
-      DARK_RED,
-      2,
-      []
+      {dataSeriesName:ACTUAL_LEVEL_DATA_SERIES_NAME,
+      xFieldName:X_FIELD_NAME,
+      yFieldName:Y_FIELD_NAME,
+      strokeColor:DARK_RED,
+      strokeWidth:2,
+      }
     ),
     // ------------------------------- Background box for label
     pointLabelSpec({
@@ -136,24 +136,24 @@ export const levelsChartSpec: Corrected = {
     }),
 
     // -------------------------------- Actual Level Point Based on Cursor
-    pointSpec(
-      {dataPointName: ACTUAL_LEVEL_DATA_POINT_NAME,
-      xFieldName:X_FIELD_NAME,
+    pointSpec({
+      dataPointName: ACTUAL_LEVEL_DATA_POINT_NAME,
+      xFieldName: X_FIELD_NAME,
       size: 100,
       fillColor: "#fff",
       pointStrokeColor: DARK_RED,
-      strokeWidth: 3}
-    ),
+      strokeWidth: 3,
+    }),
 
     // -------------------------------- Anticipated Level Point Based on Cursor
-    pointSpec(
-      {dataPointName:ANTICIPATED_LEVEL_DATA_POINT_NAME,
-      xFieldName:X_FIELD_NAME,
-      size:100,
-      fillColor:"#fff",
-      pointStrokeColor:LIGHT_BLUE,
-      strokeWidth:3}
-    ),
+    pointSpec({
+      dataPointName: ANTICIPATED_LEVEL_DATA_POINT_NAME,
+      xFieldName: X_FIELD_NAME,
+      size: 100,
+      fillColor: "#fff",
+      pointStrokeColor: LIGHT_BLUE,
+      strokeWidth: 3,
+    }),
 
     // -------------------------------- Vertical Rule Line Based on Cursor
     verticalRuleSpec(LIGHT_GRAY, SIGNAL_NAME),

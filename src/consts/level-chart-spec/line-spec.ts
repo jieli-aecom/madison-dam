@@ -1,13 +1,18 @@
 import type { Mark } from "vega";
 
+export type LineSpecParams = {
+  dataSeriesName: string;
+  xFieldName: string;
+  yFieldName: string;
+  strokeColor: string;
+  strokeWidth: number;
+  dash?: number[];
+};
+
 export const lineSpec = (
-  dataSeriesName: string,
-  xFieldName: string,
-  yFieldName: string,
-  strokeColor: string,
-  strokeWidth: number,
-  dash: number[]
+  params: LineSpecParams
 ) => {
+  const { dataSeriesName, xFieldName, yFieldName, strokeColor, strokeWidth, dash = [] } = params;
   const mark = {
     type: "line",
     from: { data: dataSeriesName },
