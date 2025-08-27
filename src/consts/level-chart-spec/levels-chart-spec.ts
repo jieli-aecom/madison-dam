@@ -11,6 +11,7 @@ import { vegaFormatWithDateField } from "./consts";
 import { dateFilteredDataPointSpec } from "./const-filtered-data-point-spec";
 import { pointLabelSpec } from "./label-spec";
 import { lineAreaSpec } from "./line-area-spec";
+import { horizontalLineWithLabelSpec } from "./horizontal-line-with-label-spec";
 
 const SIGNAL_NAME = "lookupDate";
 const ACTUAL_LEVEL_DATA_SERIES_NAME = "actuals";
@@ -132,7 +133,7 @@ export const levelsChartSpec: Corrected = {
       dataPointName: NORMAL_WINTER_DRAWDOWN_2028_DATA_POINT_NAME,
       dateFieldName: X_FIELD_NAME,
       isoDateString: NORMAL_WINTER_DRAWDOWN_2028_DATE_STRING,
-    })
+    }),
   ],
 
   marks: [
@@ -165,6 +166,29 @@ export const levelsChartSpec: Corrected = {
       strokeWidth: 2,
     }),
 
+    // -------------------------------- Horizontal Zero Line
+    horizontalLineWithLabelSpec({
+      yValue: 1208.2,
+      strokeColor: LIGHT_GRAY,
+      textColor: MAIN_BLUE,
+      text: "Normal Target Winter Drawdown Level 1208.2 ft",
+      xOffset: 270,
+    }),
+    horizontalLineWithLabelSpec({
+      yValue: 1211.2,
+      strokeColor: LIGHT_GRAY,
+      textColor: MAIN_BLUE,
+      text: "Normal Pool (Existing Spillway Crest Elevation) 1211.2 ft",
+      xOffset: 250,
+    }),
+    horizontalLineWithLabelSpec({
+      yValue: 1201.2,
+      strokeColor: LIGHT_GRAY,
+      textColor: MAIN_BLUE,
+      text: "Target Construction Drawdown Level 1201.2 ft",
+      xOffset: 275,
+    }),
+
     // ------------------------------- Permenant labels for drawdown milestones
     pointLabelSpec({
       dataPointName: NORMAL_WINTER_DRAWDOWN_2025_DATA_POINT_NAME,
@@ -187,7 +211,7 @@ export const levelsChartSpec: Corrected = {
     pointLabelSpec({
       dataPointName: ACHIEVE_10FT_DRAWDOWN_DATA_POINT_NAME,
       xFieldName: X_FIELD_NAME,
-      offsetDistanceFactor: 1.5,
+      offsetDistanceFactor: 2,
       textLines: ["Achieve 10 ft", "Drawdown", "May 2026"],
       width: 75,
       position: "top-right",
@@ -196,7 +220,7 @@ export const levelsChartSpec: Corrected = {
     pointLabelSpec({
       dataPointName: BEGIN_REFILL_DATA_POINT_NAME,
       xFieldName: X_FIELD_NAME,
-      offsetDistanceFactor: 1.5,
+      offsetDistanceFactor: 2,
       textLines: ["Begin Refill", "January 2028"],
       width: 75,
       position: "top-left",
