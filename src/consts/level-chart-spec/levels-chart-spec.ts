@@ -137,22 +137,22 @@ export const levelsChartSpec: Corrected = {
 
     // -------------------------------- Actual Level Point Based on Cursor
     pointSpec(
-      ACTUAL_LEVEL_DATA_POINT_NAME,
-      X_FIELD_NAME,
-      100,
-      "#fff",
-      DARK_RED,
-      3
+      {dataPointName: ACTUAL_LEVEL_DATA_POINT_NAME,
+      xFieldName:X_FIELD_NAME,
+      size: 100,
+      fillColor: "#fff",
+      pointStrokeColor: DARK_RED,
+      strokeWidth: 3}
     ),
 
     // -------------------------------- Anticipated Level Point Based on Cursor
     pointSpec(
-      ANTICIPATED_LEVEL_DATA_POINT_NAME,
-      X_FIELD_NAME,
-      100,
-      "#fff",
-      LIGHT_BLUE,
-      3
+      {dataPointName:ANTICIPATED_LEVEL_DATA_POINT_NAME,
+      xFieldName:X_FIELD_NAME,
+      size:100,
+      fillColor:"#fff",
+      pointStrokeColor:LIGHT_BLUE,
+      strokeWidth:3}
     ),
 
     // -------------------------------- Vertical Rule Line Based on Cursor

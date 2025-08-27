@@ -1,15 +1,29 @@
 import type { Mark } from "vega";
 
+export type PointSpecParams = {
+  dataPointName: string;
+  xFieldName: string;
+  size: number;
+  fillColor: string;
+  pointStrokeColor: string;
+  strokeWidth: number;
+  opacity?: number;
+  zIndex?: number;
+};
+
 export const pointSpec = (
-  dataPointName: string,
-  xFieldName: string,
-  size: number,
-  fillColor: string,
-  pointStrokeColor: string,
-  strokeWidth: number,
-  opacity: number = 1,
-  zIndex: number = 1,
+  params: PointSpecParams,
 ) => {
+  const {
+    dataPointName,
+    xFieldName,
+    size,
+    fillColor,
+    pointStrokeColor,
+    strokeWidth,
+    opacity = 1,
+    zIndex = 0,
+  } = params;
   const mark = {
     type: "symbol",
     from: { data: dataPointName },
