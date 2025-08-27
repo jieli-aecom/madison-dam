@@ -5,9 +5,11 @@ import { lineSpec } from "./line-spec";
 import { pointSpec } from "./point-spec";
 import { verticalRuleSpec } from "./vertical-rule-spec";
 import { otherSpecs } from "./other-specs";
-import { dataPointSpec } from "./data-point-spec";
+import { cursorFilteredDataPointSpec } from "./cursor-filtered-data-point-spec";
 import type { Mark, Signal } from "vega";
 import { vegaFormatWithDateField } from "./consts";
+import { dateFilteredDataPointSpec } from "./const-filtered-data-point-spec";
+import { pointLabelSpec } from "./label-spec";
 
 const SIGNAL_NAME = "lookupDate";
 const ACTUAL_LEVEL_DATA_SERIES_NAME = "actuals";
@@ -15,6 +17,11 @@ const ANTICIPATED_LEVEL_DATA_SERIES_NAME = "anticipated";
 const ANTICIPATED_LEVEL_RANGE_DATA_SERIES_NAME = "anticipated_range";
 const ACTUAL_LEVEL_DATA_POINT_NAME = "actuals_filtered";
 const ANTICIPATED_LEVEL_DATA_POINT_NAME = "anticipated_filtered";
+
+// Drawdown data points
+const NORMAL_WINTER_DRAWDOWN_2025_DATA_POINT_NAME = "normalWinterDrawdown2025";
+const NORMAL_WINTER_DRAWDOWN_2025_DATE_STRING = "2025-12-03";
+
 const X_FIELD_NAME = "date";
 const Y_FIELD_NAME = "value";
 const Y1_FIELD_NAME = "low";
@@ -63,7 +70,7 @@ export const levelsChartSpec: Corrected = {
     },
 
     // -------------------------------- Anticipated Level Filtered By Current Cursor
-    dataPointSpec(
+    cursorFilteredDataPointSpec(
       ANTICIPATED_LEVEL_DATA_SERIES_NAME,
       X_FIELD_NAME,
       ANTICIPATED_LEVEL_DATA_POINT_NAME,
@@ -71,11 +78,18 @@ export const levelsChartSpec: Corrected = {
     ),
 
     // -------------------------------- Actual Level Filtered By Current Cursor
-    dataPointSpec(
+    cursorFilteredDataPointSpec(
       ACTUAL_LEVEL_DATA_SERIES_NAME,
       X_FIELD_NAME,
       ACTUAL_LEVEL_DATA_POINT_NAME,
       SIGNAL_NAME
+    ),
+
+    dateFilteredDataPointSpec(
+      ANTICIPATED_LEVEL_DATA_SERIES_NAME,
+      NORMAL_WINTER_DRAWDOWN_2025_DATA_POINT_NAME,
+      X_FIELD_NAME,
+      NORMAL_WINTER_DRAWDOWN_2025_DATE_STRING
     ),
   ],
 
@@ -115,6 +129,11 @@ export const levelsChartSpec: Corrected = {
       2,
       []
     ),
+    // ------------------------------- Background box for label
+    pointLabelSpec({
+      dataPointName: NORMAL_WINTER_DRAWDOWN_2025_DATA_POINT_NAME,
+      xFieldName: X_FIELD_NAME,
+    }),
 
     // -------------------------------- Actual Level Point Based on Cursor
     pointSpec(

@@ -2,7 +2,7 @@ import type { Data } from "vega";
 
 const MILLISECONDS_BY_DAY = 60 * 60 * 24 * 1000;
 
-export const dataPointSpec = (
+export const cursorFilteredDataPointSpec = (
   sourceSeriesName: string,
   xFieldName: string,
   dataPointName: string,
