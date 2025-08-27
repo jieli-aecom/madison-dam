@@ -257,6 +257,7 @@ export const levelsChartSpec: Corrected = {
       textColor: MAIN_BLUE,
       boxFillColor: LIGHT_BLUE,
       boxStrokeColor: LIGHT_BLUE,
+      lineStrokeColor: LIGHT_BLUE,
     }),
 
     // -------------------------------- Actual Level Point Based on Cursor
