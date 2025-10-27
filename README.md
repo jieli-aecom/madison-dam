@@ -1,54 +1,52 @@
-# React + TypeScript + Vite
+# Madison Dam (Canals Website)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repo contains the application of Madison Dam Reservoir Drawdown diagrams, and a python procedure to update real-time level data.
 
-Currently, two official plugins are available:
+## Front-End Application
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application is built from the Vite+React/TS framework and follows all conventions. The application requires three environmental variables from the `.env` file.
 
-## Expanding the ESLint configuration
+## Data Update Procedure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Token
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+The update procedure relies on a `CLIENT_ID` and a `CLIENT_SECRET` under `./preprocess/env.py`.
+
+### Environment
+
+To ensure the functioning of the scripts, install the Python environment using `requirements.txt`.
+
+```bash
+python -m venv env
+env\Script\activate
+
+pip install -r requirements.txt
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Update Procedure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To update the real-time level data, run:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+env\Script\activate
+
+python ./preprocess/get_level_data.py
 ```
+
+This will query the latest level data and updates the file `./public/data/actuals.json`.
+
+To update anticipated data, run:
+
+```bash
+env\Script\activate
+
+python ./preprocess/get_anticipated_level_data.py
+```
+
+This *statically* creates the anticipated level data and updates the files `./public/data/anticipated.json` and `./public/data/anticipated_range.json`.
+
+### Data Updated
+
+- `./public/data/actuals.json`
+- `./public/data/anticipated.json`
+- `./public/data/anticipated_range.json`
