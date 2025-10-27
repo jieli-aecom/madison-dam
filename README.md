@@ -4,7 +4,11 @@ This repo contains the application of Madison Dam Reservoir Drawdown diagrams, a
 
 ## Front-End Application
 
-The application is built from the Vite+React/TS framework and follows all conventions. The application requires three environmental variables from the `.env` file.
+The application is built from the Vite+React/TS framework and follows all conventions. The application requires three environmental variables from the `.env` file. To test the website, run:
+
+```bash
+npm run dev
+```
 
 ## Data Update Procedure
 
