@@ -23,6 +23,7 @@ export const lineSpec = (
         y: { scale: "y", field: yFieldName },
         stroke: { value: strokeColor },
         strokeWidth: { value: strokeWidth },
+        defined: { signal: `datum.${yFieldName} != null` }
       },
     },
   } as Mark;
