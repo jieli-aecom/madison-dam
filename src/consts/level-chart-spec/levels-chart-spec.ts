@@ -13,6 +13,9 @@ import { pointLabelSpec } from "./label-spec";
 import { lineAreaSpec } from "./line-area-spec";
 import { horizontalLineWithLabelSpec } from "./horizontal-line-with-label-spec";
 
+const azureContainerUrl = import.meta.env.VITE_AZURE_CONTAINER_URL;
+const azureSas = import.meta.env.VITE_AZURE_SAS;
+
 const SIGNAL_NAME = "lookupDate";
 const ACTUAL_LEVEL_DATA_SERIES_NAME = "actuals";
 const ANTICIPATED_LEVEL_DATA_SERIES_NAME = "anticipated";
@@ -70,19 +73,19 @@ export const levelsChartSpec: Corrected = {
     // -------------------------------- Raw Actual Level Data
     {
       name: ACTUAL_LEVEL_DATA_SERIES_NAME,
-      url: "data/actuals.json",
+      url: `${azureContainerUrl}/actuals.json?${azureSas}`,
       format: vegaFormatWithDateField,
     },
     // -------------------------------- Raw Anticipated Level Data
     {
       name: ANTICIPATED_LEVEL_DATA_SERIES_NAME,
-      url: "data/anticipated.json",
+      url: `${azureContainerUrl}/anticipated.json?${azureSas}`,
       format: vegaFormatWithDateField,
     },
     // -------------------------------- Anticipated Level (Range), with `low` and `high` fields
     {
       name: ANTICIPATED_LEVEL_RANGE_DATA_SERIES_NAME,
-      url: "data/anticipated_range.json",
+      url: `${azureContainerUrl}/anticipated_range.json?${azureSas}`,
       format: vegaFormatWithDateField,
     },
 

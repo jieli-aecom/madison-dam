@@ -1,6 +1,6 @@
 import requests
 import datetime
-from env import CLIENT_ID, CLIENT_SECRET
+from config import CLIENT_ID, CLIENT_SECRET
 
 AUTH_URL = (
     "https://cloud.xylem.com/xcloud/auth/realms/xcloud/protocol/openid-connect/token"

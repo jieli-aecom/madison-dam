@@ -26,6 +26,8 @@ jobs:
           VITE_MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
           VITE_XYLEM_CLIENT_ID: ${{ secrets.XYLEM_CLIENT_ID }}
           VITE_XYLEM_CLIENT_SECRET: ${{ secrets.XYLEM_CLIENT_SECRET }}
+          VITE_AZURE_CONTAINER_URL: ${{ secrets.AZURE_CONTAINER_URL }}
+          VITE_AZURE_SAS: ${{ secrets.AZURE_SAS }}
         run: npm run build
 
       - name: Deploy to GitHub Pages
