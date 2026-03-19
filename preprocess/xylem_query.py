@@ -1,5 +1,6 @@
 import requests
 from xylem_token import get_token
+import datetime
 
 AUTH_URL = "https://cloud.xylem.com/xcloud/auth/realms/xcloud/protocol/openid-connect/token"
 SITES_URL = "https://cloud.xylem.com/xcloud/data-export/sites"
@@ -20,12 +21,12 @@ def get_site_id(site_name):
 
     resp = requests.get(SITES_URL, headers=headers)
     if resp.status_code != 200:
-        raise ValueError(f"Failed to fetch sites: {resp.text}")
+        raise KeyError(f"Failed to fetch sites: {resp.text}")
 
     for item in resp.json():
         if item["name"] == site_name:
             return item["id"]
-    raise ValueError(f"Site '{site_name}' not found.")
+    raise KeyError(f"Site '{site_name}' not found.")
 
 def get_data_stream_id(site_id, data_stream_name):
     token = get_token()
@@ -36,12 +37,12 @@ def get_data_stream_id(site_id, data_stream_name):
     }
     resp = requests.get(DATA_STREAMS_URL(site_id), headers=headers)
     if resp.status_code != 200:
-        raise ValueError(f"Failed to fetch data streams for site ID '{site_id}': {resp.text}")
+        raise KeyError(f"Failed to fetch data streams for site ID '{site_id}': {resp.text}")
     
     for item in resp.json():
         if item["name"] == data_stream_name:
             return item["id"]
-    raise ValueError(
+    raise KeyError(
         f"Data stream '{data_stream_name}' not found for site ID '{site_id}'."
     )
 
@@ -59,14 +60,14 @@ def get_observations(data_stream_id, date_string):
     )
     
     if resp.status_code != 200:
-        raise ValueError(f"Failed to fetch observations: {resp.text}")
+        raise KeyError(f"Failed to fetch observations: {resp.text}")
     
     if data_stream_id not in resp.json():
-        raise ValueError(f"No observations found for data stream ID '{data_stream_id}' on {date_string}.")
+        raise KeyError(f"No observations found for data stream ID '{data_stream_id}' on {date_string}.")
     
     return resp.json()[data_stream_id]
 
-def get_average(observations):
+def get_average(observations) -> float:
     if len(observations) == 0:
         return None
     
@@ -76,9 +77,25 @@ def get_average(observations):
     
     return sum(values) / len(values)
 
-def get_daily_average_level(site_name, data_stream_name, date_string):
-    site_id = get_site_id(site_name)
-    data_stream_id = get_data_stream_id(site_id, data_stream_name)
-    data = get_observations(data_stream_id, date_string)
+DATA_STREAM_ID = ""
+
+def set_data_stream_id(site_name: str, data_stream_name: str):
+    global DATA_STREAM_ID
+
+    try:
+        site_id = get_site_id(site_name)
+        DATA_STREAM_ID = get_data_stream_id(site_id, data_stream_name)
+        print(f"Using {DATA_STREAM_ID} as Data Stream ID for {site_name} > {data_stream_name}")
+    except:
+        DATA_STREAM_ID = ""
+        raise KeyError(f"Failed to get data stream ID for {site_name} > {data_stream_name}")
+    
+
+def get_daily_average_level(date: datetime.date):
+    if DATA_STREAM_ID == "":
+        raise KeyError("Data strea ID must be set by calling `set_data_stream_id` first.")
+    
+    date_string = date.strftime("%Y-%m-%d")
+    data = get_observations(DATA_STREAM_ID, date_string)
     average_value = get_average(data)
     return average_value
